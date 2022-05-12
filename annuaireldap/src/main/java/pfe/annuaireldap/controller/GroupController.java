@@ -3,11 +3,15 @@ package pfe.annuaireldap.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pfe.annuaireldap.dto.GroupDto;
+import pfe.annuaireldap.request.GroupRequest;
 import pfe.annuaireldap.service.GroupService;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class GroupController {
@@ -23,7 +27,17 @@ public class GroupController {
     }
     @GetMapping (path="/find-group-by-cn")
     public GroupDto findGroupByCn() throws Exception{
-        GroupDto groupDto =groupService.getGroupByCn("testGroup2");
+        GroupDto groupDto =groupService.getGroupByCn("wajdiGroup");
         return groupDto;
+    }
+    @PostMapping(path = "/add-group")
+    public String addGroup() throws Exception{
+        GroupRequest groupRequest = new GroupRequest();
+        groupRequest.setId("cn=njarebGroup, ou=Groups");
+        groupRequest.setDescription("description");
+        Set<String> members = new HashSet<String>();
+        members.add("uid=006,ou=users,dc=cni,dc=tn");
+        groupRequest.setMembers(members);
+        return groupService.addGroup(groupRequest);
     }
 }

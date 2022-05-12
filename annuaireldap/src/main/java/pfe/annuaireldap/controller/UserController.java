@@ -13,6 +13,7 @@ import pfe.annuaireldap.request.UserRequest;
 import pfe.annuaireldap.service.UserService;
 
 import javax.naming.InvalidNameException;
+import javax.naming.NamingException;
 import java.util.List;
 
 @RestController
@@ -23,7 +24,7 @@ public class UserController {
     UserService userService;
     @GetMapping(path="/find-user-by-govcnrps")
     public UserDto findUserByGovCnrps() throws Exception{
-        UserDto user =userService.getUserByCnrps("001");
+        UserDto user =userService.getUserByCnrps("009");
         return user;
     }
 
@@ -36,12 +37,13 @@ public class UserController {
     public String adduser () throws InvalidNameException {
         UserRequest userRequest = new UserRequest();
 
-        userRequest.setId("uid=009,ou=users");
+        userRequest.setId("uid=005,ou=users");
         userRequest.setCn("cn");
         userRequest.setSn("Sn");
+        userRequest.setGovCNRPS("005");
 
 
-        return null;
+        return userService.addUser(userRequest);
     }
 
 
